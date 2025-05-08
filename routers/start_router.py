@@ -3,8 +3,10 @@ from aiogram.filters import CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
-router = Router()
+from middleware import AdminMsgMiddleware
 
+router = Router()
+router.message.middleware(AdminMsgMiddleware())
 start_button = InlineKeyboardMarkup(inline_keyboard=[
     [InlineKeyboardButton(text="Создать аккаунт", callback_data="create_acc")],
     [InlineKeyboardButton(text="Мои аккаунты", callback_data="my_acc")],

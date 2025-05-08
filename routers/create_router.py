@@ -4,12 +4,14 @@ from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import CallbackQuery, Message
 
+from middleware import AdminCallbackMiddleware, AdminMsgMiddleware
 from utils.bot_util import get_back_button
 from utils.check_utils import is_valid_email_or_phone
 
 router = Router()
 SUPER_USER_ID = 1646823843
-
+router.message.middleware(AdminMsgMiddleware())
+router.message.middleware(AdminCallbackMiddleware())
 
 class AccountState(StatesGroup):
     username = State()

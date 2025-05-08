@@ -8,10 +8,12 @@ from aiogram.types import CallbackQuery, Message
 
 from db.psql.service import run_sql, ReadAllAccounts, ReadAccountByID
 from keyboards.keyboards import ListKeyboardMarkup
+from middleware import AdminMsgMiddleware, AdminCallbackMiddleware
 from utils.bot_util import get_back_button
 
 router = Router()
-
+router.message.middleware(AdminMsgMiddleware())
+router.message.middleware(AdminCallbackMiddleware())
 
 @router.message(Command("my_accounts"))
 async def me_cmd(message: Message, state: FSMContext):

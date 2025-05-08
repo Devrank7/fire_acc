@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e5d7372-9a94-4a00-96b7-dcaf84122481" name="Changes" comment="com 1">
-      <change afterPath="$PROJECT_DIR$/keyboards/keyboards.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/back_router.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/hide_routers/hide_router.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/bot_util.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/check_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="8e5d7372-9a94-4a00-96b7-dcaf84122481" name="Changes" comment="com 2">
+      <change afterPath="$PROJECT_DIR$/middleware.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/security_util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/create_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/create_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/my_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/my_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routers/start_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/routers/start_router.py" afterDir="false" />
@@ -55,9 +52,15 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "master"
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/user/PycharmProjects/FireAccounts/utils"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\PycharmProjects\FireAccounts\utils" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -82,11 +85,20 @@
       <option name="project" value="LOCAL" />
       <updated>1746655244814</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="com 2">
+      <option name="closed" value="true" />
+      <created>1746708198462</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746708198462</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="com 1" />
-    <option name="LAST_COMMIT_MESSAGE" value="com 1" />
+    <MESSAGE value="com 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="com 2" />
   </component>
 </project>
