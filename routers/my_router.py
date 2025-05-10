@@ -4,7 +4,7 @@ from datetime import timedelta
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 from db.psql.service import run_sql, ReadAllAccounts, ReadAccountByID
 from keyboards.keyboards import ListKeyboardMarkup
@@ -37,7 +37,7 @@ async def my(query: CallbackQuery, state: FSMContext):
     await query.message.edit_text("Выберете аккаунт: ", reply_markup=markup)
 
 @router.callback_query(F.data.startswith("acc_"))
-async def acc(query: CallbackQuery):
+async def acc(query: CallbackQuery, state: FSMContext):
     acc_id = int(query.data.split("_")[1])
     account = await run_sql(ReadAccountByID(acc_id))
     if not account:
@@ -55,6 +55,11 @@ async def acc(query: CallbackQuery):
     Сколько дней осталось до полного прогревания: {"Уже прогрет" if is_fire else days_for_fire} 
     Статус аккаунта: {"Прогретый ✅" if is_fire else "Прогревается 📋"}
     '''
-    back_reply = get_back_button(1)
-    await query.message.edit_text(text, reply_markup=back_reply)
+    markup = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Удалить", callback_data=f"rem_{account.id}")],
+        [InlineKeyboardButton(text="Назад", callback_data=f"back_1")]
+    ])
+    await state.update_data(bt2=text)
+    await state.update_data(br2=markup)
+    await query.message.edit_text(text, reply_markup=markup)
 

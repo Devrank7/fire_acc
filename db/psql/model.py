@@ -18,3 +18,5 @@ class Account(Base):
     password = Column(String(length=1024))
     created_at = Column(DateTime(), default=datetime.datetime.now)
     fire_end = Column(DateTime(), default=date_time_add_two_weeks)
+    def is_fire(self):
+        return self.fire_end < datetime.datetime.now()
