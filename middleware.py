@@ -17,7 +17,7 @@ class AdminMsgMiddleware(BaseMiddleware):
         username = event.from_user.username or f"user{event.from_user.id}"
         print("Username", username)
         if not is_admin(username):
-            await event.answer("Извините, вход вам запрещен!")
+            await event.answer("Извините, вход вам запрещен ❌")
             return
         return await handler(event, data)
 
@@ -33,6 +33,6 @@ class AdminCallbackMiddleware(BaseMiddleware):
         username = event.from_user.username or f"user{event.from_user.id}"
         print("Username", username)
         if not is_admin(username):
-            await event.answer("Извините, вход вам запрещен!", show_alert=True)
+            await event.answer("Извините, вход вам запрещен ❌", show_alert=True)
             return
         return await handler(event, data)

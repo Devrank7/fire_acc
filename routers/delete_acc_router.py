@@ -22,4 +22,4 @@ async def rem_acc(query: CallbackQuery):
 async def del_acc(query: CallbackQuery):
     acc_id = int(query.data.split("_")[1])
     await run_sql(DeleteAccount(acc_id))
-    await query.message.edit_text("Аккаунт был полностью удален. Нажмите /start")
+    await query.message.edit_text("Аккаунт был полностью удален✅ Нажмите /start")

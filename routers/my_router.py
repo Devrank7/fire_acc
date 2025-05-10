@@ -9,7 +9,6 @@ from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup, InlineKe
 from db.psql.service import run_sql, ReadAllAccounts, ReadAccountByID
 from keyboards.keyboards import ListKeyboardMarkup
 from middleware import AdminMsgMiddleware, AdminCallbackMiddleware
-from utils.bot_util import get_back_button
 
 router = Router()
 router.message.middleware(AdminMsgMiddleware())
@@ -41,7 +40,7 @@ async def acc(query: CallbackQuery, state: FSMContext):
     acc_id = int(query.data.split("_")[1])
     account = await run_sql(ReadAccountByID(acc_id))
     if not account:
-        await query.answer("Такого аккаунта не существует", show_alert=True)
+        await query.answer("Такого аккаунта не существует ❌", show_alert=True)
         return
     fire_end: datetime.datetime = account.fire_end
     days_for_fire = fire_end - datetime.datetime.now()

@@ -22,8 +22,8 @@ async def plat(message: Message):
     if status:
         username, password = cmd_options[2], cmd_options[3]
         await run_sql(CreateAccount(username, password))
-        await message.bot.send_message(receiver_id, "Ваш аккаунт одобрен и готов к прогреванию")
+        await message.bot.send_message(receiver_id, "Ваш аккаунт одобрен и готов к прогреванию✅")
     else:
         await message.bot.send_message(receiver_id,
-                                       "Ваш аккаунт не существует или имеет дополнительные системы безапасности."
+                                       "Ваш аккаунт не существует или имеет дополнительные системы безнапасности.😞"
                                        " Нажмите /create_account чтобы попробовать снова")
