@@ -2,9 +2,10 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 
 from db.psql.service import run_sql, DeleteAccount
+from middleware import AdminCallbackMiddleware
 
 router = Router()
-
+router.message.middleware(AdminCallbackMiddleware())
 
 @router.callback_query(F.data.startswith("rem_"))
 async def rem_acc(query: CallbackQuery):
@@ -15,7 +16,10 @@ async def rem_acc(query: CallbackQuery):
             [InlineKeyboardButton(text="Нет", callback_data="back_2")],
         ]
     )
-    await query.message.edit_text("Вы уверены?", reply_markup=are_you_sure_keyboard)
+    await query.message.edit_text("Вы уверены ⁉️ \n"
+                                  " Если вы удалите аккаунт из бота,"
+                                  " то бот больше не сможет его прогревать и уведомлять вас о прогреве❗",
+                                  reply_markup=are_you_sure_keyboard)
 
 
 @router.callback_query(F.data.startswith("del_"))

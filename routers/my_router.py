@@ -17,7 +17,10 @@ router.message.middleware(AdminCallbackMiddleware())
 @router.message(Command("my_accounts"))
 async def me_cmd(message: Message, state: FSMContext):
     accounts = await run_sql(ReadAllAccounts())
-    account_markup_exe = ListKeyboardMarkup(accounts, lambda acc: acc.username, lambda acc: acc.id, "acc", False, 0)
+    if len(accounts) == 0:
+        await message.answer("Вы пока что не добавили ни одного фейсбук аккаунта для прогрева. Нажмите /create_account")
+        return
+    account_markup_exe = ListKeyboardMarkup(accounts, lambda acc: acc.username, lambda acc: acc.id, "acc_", False, 0)
     markup = account_markup_exe.as_keyboard_markup()
     text = 'Выберете аккаунт: '
     await state.update_data(bt1=text)
@@ -28,7 +31,10 @@ async def me_cmd(message: Message, state: FSMContext):
 @router.callback_query(F.data == "my_acc")
 async def my(query: CallbackQuery, state: FSMContext):
     accounts = await run_sql(ReadAllAccounts())
-    account_markup_exe = ListKeyboardMarkup(accounts, lambda acc: acc.username, lambda acc: acc.id, "acc", True, 0)
+    if len(accounts) == 0:
+        await query.answer("Вы пока что не добавили ни одного фейсбук аккаунта для прогрева. Нажмите /create_account", show_alert=True)
+        return
+    account_markup_exe = ListKeyboardMarkup(accounts, lambda acc: acc.username, lambda acc: acc.id, "acc_", True, 0)
     markup = account_markup_exe.as_keyboard_markup()
     text = 'Выберете аккаунт: '
     await state.update_data(bt1=text)
@@ -42,17 +48,27 @@ async def acc(query: CallbackQuery, state: FSMContext):
     if not account:
         await query.answer("Такого аккаунта не существует ❌", show_alert=True)
         return
-    fire_end: datetime.datetime = account.fire_end
-    days_for_fire = fire_end - datetime.datetime.now()
-    firing_days = datetime.datetime.now() - account.created_at
+    fire_end: datetime = account.fire_end
+    now = datetime.datetime.now()
+    days_for_fire = fire_end - now
+    firing_days = now - account.created_at
     is_fire = days_for_fire < timedelta(0)
+
+    # Функция форматирования timedelta в "X дней Y часов"
+    def format_timedelta(td: timedelta) -> str:
+        total_seconds = int(td.total_seconds())
+        abs_total_seconds = abs(total_seconds)
+        days = abs_total_seconds // 86400
+        hours = (abs_total_seconds % 86400) // 3600
+        return f"{'-' if total_seconds < 0 else ''}{days} дн. {hours} ч."
+
     text = f'''
     Аккаунт:
     Почта/номер: {account.username},
     Пароль: {account.password},
-    Сколько дней прогревается аккаунт: {"Уже прогрет" if is_fire else firing_days},
-    Сколько дней осталось до полного прогревания: {"Уже прогрет" if is_fire else days_for_fire} 
-    Статус аккаунта: {"Прогретый ✅" if is_fire else "Прогревается 📋"}
+    Прогрев: {"Завершён ✅" if is_fire else f"Идёт ({format_timedelta(firing_days)})"},
+    Осталось до конца прогрева: {"Готов 🔥" if is_fire else f"\n{format_timedelta(days_for_fire)}"}
+    Статус: {"Прогретый ✅" if is_fire else "Прогревается 📋"}
     '''
     markup = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="Удалить", callback_data=f"rem_{account.id}")],

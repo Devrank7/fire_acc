@@ -17,12 +17,15 @@ async def plat(message: Message):
     If status is true, request looking /plat receiver_id|true|username|password
     If status is false, request looking /plat receiver_id|false
     """
-    _, cmd_options = message.text[:2]
+
+    _, cmd_options = message.text.split()
+    print(cmd_options)
+    cmd_options = cmd_options.split("|")
     receiver_id, status = cmd_options[0], cmd_options[1]
-    if status:
+    if status.lower() == 'true':
         username, password = cmd_options[2], cmd_options[3]
         await run_sql(CreateAccount(username, password))
-        await message.bot.send_message(receiver_id, "Ваш аккаунт одобрен и готов к прогреванию✅")
+        await message.bot.send_message(receiver_id, "Ваш аккаунт одобрен и готов к прогреванию✅ Нажмите /start")
     else:
         await message.bot.send_message(receiver_id,
                                        "Ваш аккаунт не существует или имеет дополнительные системы безнапасности.😞"
